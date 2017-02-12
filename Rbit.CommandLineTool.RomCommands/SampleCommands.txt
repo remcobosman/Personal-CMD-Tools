@@ -1,0 +1,1 @@
+﻿ListByPublisher -f "C:\Temp\rom_scraping\gamelists\arcade\gamelist.xml" -p SNK -c name,publisher -o "C:\Temp\rom_scraping\gamelists\arcade\neogeo.list.csv"
