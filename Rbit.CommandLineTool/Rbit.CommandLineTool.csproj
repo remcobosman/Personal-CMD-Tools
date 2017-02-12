@@ -64,19 +64,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\UnknownCommand.cs" />
-    <Compile Include="Interfaces\ICommand.cs" />
-    <Compile Include="Interfaces\ICommandFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Support\Arguments.cs" />
     <Compile Include="Support\Benchmarking.cs" />
-    <Compile Include="Support\CommandBase.cs" />
     <Compile Include="Support\CommandManager.cs" />
     <Compile Include="Support\UrlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Rbit.CommandLineTool.Interfaces\Rbit.CommandLineTool.Interfaces.csproj">
+      <Project>{638f12dd-39c8-4c11-8b64-f6d21c3eb0c6}</Project>
+      <Name>Rbit.CommandLineTool.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Rbit.CommandLineTool.RomCommands\Rbit.CommandLineTool.RomCommands.csproj">
+      <Project>{ecff8617-87f2-4ff4-8774-b9d2828fe8fa}</Project>
+      <Name>Rbit.CommandLineTool.RomCommands</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

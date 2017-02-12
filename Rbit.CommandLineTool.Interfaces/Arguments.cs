@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Text.RegularExpressions;
 
-namespace Rbit.CommandLineTool.Support
+namespace Rbit.CommandLineTool.Interfaces
 {
     /// <summary>
     /// Arguments class

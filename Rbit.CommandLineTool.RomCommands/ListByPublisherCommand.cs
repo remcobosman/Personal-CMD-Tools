@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Ninject.Extensions.Logging;
+using Rbit.CommandLineTool.Interfaces;
 using Rbit.CommandLineTool.RomCommands.Support;
-using Rbit.CommandLineTool.Support;
 
 namespace Rbit.CommandLineTool.RomCommands
 {
@@ -19,7 +19,7 @@ namespace Rbit.CommandLineTool.RomCommands
 
         public override void Execute()
         {
-            _logger.Info($"Listing games by publisher name {Arguments["p"]}, from file {Arguments["f"]}");
+            Logger.Info($"Listing games by publisher name {Arguments["p"]}, from file {Arguments["f"]}");
             var columns = new List<string>();
 
             if (Arguments.Contains("c"))
@@ -34,7 +34,7 @@ namespace Rbit.CommandLineTool.RomCommands
             foreach (var game in games)
             {
                 var info = GameListManager.CreateOutputInfoLine(game, columns);
-                _logger.Info(info);
+                Logger.Info(info);
 
                 if (Arguments.Contains("o"))
                 {

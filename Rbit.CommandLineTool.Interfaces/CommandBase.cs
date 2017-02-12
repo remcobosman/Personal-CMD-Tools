@@ -1,15 +1,14 @@
 ﻿using Ninject.Extensions.Logging;
-using Rbit.CommandLineTool.Interfaces;
 
-namespace Rbit.CommandLineTool.Support
+namespace Rbit.CommandLineTool.Interfaces
 {
     public abstract class CommandBase : ICommand, ICommandFactory
     {
-        protected readonly ILogger _logger;
+        protected readonly ILogger Logger;
 
         protected CommandBase(ILogger logger)
         {
-            _logger = logger;
+            Logger = logger;
         }
 
         /// <summary>

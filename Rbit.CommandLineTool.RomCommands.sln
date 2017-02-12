@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rbit.CommandLineTool", "Rbi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rbit.CommandLineTool.RomCommands", "Rbit.CommandLineTool.RomCommands\Rbit.CommandLineTool.RomCommands.csproj", "{ECFF8617-87F2-4FF4-8774-B9D2828FE8FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rbit.CommandLineTool.Interfaces", "Rbit.CommandLineTool.Interfaces\Rbit.CommandLineTool.Interfaces.csproj", "{638F12DD-39C8-4C11-8B64-F6D21C3EB0C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{ECFF8617-87F2-4FF4-8774-B9D2828FE8FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECFF8617-87F2-4FF4-8774-B9D2828FE8FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECFF8617-87F2-4FF4-8774-B9D2828FE8FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{638F12DD-39C8-4C11-8B64-F6D21C3EB0C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{638F12DD-39C8-4C11-8B64-F6D21C3EB0C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{638F12DD-39C8-4C11-8B64-F6D21C3EB0C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{638F12DD-39C8-4C11-8B64-F6D21C3EB0C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
