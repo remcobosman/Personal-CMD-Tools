@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -33,25 +34,29 @@ namespace Rbit.CommandLineTool.RomCommands.Support
                 // Get the source game node
                 var gamesXml = currentGameList.Element("gameList").Elements("game").Where(g => g.Attribute("id").Value == game);
 
-                _logger.Info("------------------------------------------------------------------------------------------------");
-                _logger.Info($"Processing game: {gamesXml.First().Element("name").Value}");
-
-                if (gamesXml.Count() > 1)
+                if (gamesXml.Any())
                 {
-                    _logger.Info($"Found {gamesXml.Count()} variations");
-                }
 
-                foreach (var gameXml in gamesXml)
-                {
-                    newGameList.Root.Add(this.MoveGame(currentBaseFolder, currentEmulator, gameXml, targetLocation, targetEmulator, removeFromSource));
-                    if (removeFromSource)
+                    _logger.Info("------------------------------------------------------------------------------------------------");
+                    _logger.Info($"Processing game: {gamesXml.First().Element("name").Value}, with {gamesXml.Count()} variations");
+
+                    foreach (var gameXml in gamesXml)
                     {
-                        gameXml.Remove();
+                        try
+                        {
+                            newGameList.Root.Add(this.MoveGame(currentBaseFolder, currentEmulator, gameXml,
+                                targetLocation,
+                                targetEmulator, removeFromSource));
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.Error($"Error moving: {game}");
+                        }
                     }
                 }
             }
 
-            return newGameList;
+            return newGameList.Elements("game").Any() ? newGameList : null;
         }
 
 
@@ -122,6 +127,11 @@ namespace Rbit.CommandLineTool.RomCommands.Support
             if (move)
             {
                 _logger.Info($"Moving: {new DirectoryInfo(source).FullName}, to: {new DirectoryInfo(target).FullName}");
+                if (!File.Exists(source))
+                {
+                    _logger.Warn($"Source file: {source} does not exists, skipping");
+                    return;
+                }
                 if (File.Exists(target))
                 {
                     File.Delete(target);

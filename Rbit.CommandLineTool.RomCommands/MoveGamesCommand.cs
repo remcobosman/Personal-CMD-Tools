@@ -42,12 +42,22 @@ namespace Rbit.CommandLineTool.RomCommands
 
             var newList = manager.MoveGames(currentBaseFolder, currentEmulator, sourceGameList, games, Arguments["l"], Arguments["e"], Arguments.Contains("remove"));
 
-            // save gamelist
-            newList.Save($"{Arguments["l"]}\\gamelists\\{Arguments["e"]}\\gamelist.xml");
-
-            if (Arguments.Contains("remove"))
+            if (newList != null)
             {
-                sourceGameList.Save(Arguments["f"]);
+                // save gamelist
+                newList.Save($"{Arguments["l"]}\\gamelists\\{Arguments["e"]}\\gamelist.xml");
+                if (Arguments.Contains("remove"))
+                {
+                    sourceGameList.Element("gameList")
+                        .Elements("game")
+                        .Where(g => games.Contains(g.Attribute("id").Value))
+                        .Remove();
+                    sourceGameList.Save(Arguments["f"]);
+                }
+            }
+            else
+            {
+                Logger.Info($"No games found in the source gameslist.xml, no work done");
             }
         }
 
