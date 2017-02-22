@@ -14,12 +14,12 @@ namespace Rbit.CommandLineTool.RomCommands
 
         public override bool CanExecute()
         {
-            return Arguments.Contains("p") && Arguments.Contains("f");
+            return Arguments.Contains("p") && Arguments.Contains("g");
         }
 
         public override void Execute()
         {
-            Logger.Info($"Listing games by publisher name {Arguments["p"]}, from file {Arguments["f"]}");
+            Logger.Info($"Listing games by publisher name {Arguments["p"]}, from file {Arguments["g"]}");
             var columns = new List<string>();
 
             if (Arguments.Contains("c"))
@@ -27,7 +27,7 @@ namespace Rbit.CommandLineTool.RomCommands
                 columns = Arguments["c"].Split(',').ToList();
             }
 
-            var gamelist = XDocument.Load(this.Arguments["f"]);
+            var gamelist = XDocument.Load(this.Arguments["g"]);
 
             var games = gamelist.Descendants().Where(g => g.Element("publisher") != null && g.Element("publisher").Value == Arguments["p"]);
 
@@ -53,6 +53,6 @@ namespace Rbit.CommandLineTool.RomCommands
 
         public override string Name => "ListByPublisher";
         public override string Description => "Lists games from the specified gameslist for the given publisher.";
-        public override string Usage => "ListGamesPerPublisher -f <gamelists xml file> -p <the name of the publisher (i.e. SNK)>";
+        public override string Usage => "ListGamesPerPublisher -g <gamelists xml file> -p <the name of the publisher (i.e. SNK)>";
     }
 }

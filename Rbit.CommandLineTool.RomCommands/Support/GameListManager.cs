@@ -10,7 +10,6 @@ namespace Rbit.CommandLineTool.RomCommands.Support
     public class GameListManager
     {
         private readonly ILogger _logger;
-
         public GameListManager(ILogger logger)
         {
             _logger = logger;
@@ -24,7 +23,6 @@ namespace Rbit.CommandLineTool.RomCommands.Support
 
             return item.Attribute("id").Value + "," + columns.Aggregate((current, next) => $"{item.Element(current).Value},{item.Element(next).Value}");
         }
-
         public XDocument MoveGames(string currentBaseFolder, string currentEmulator, XDocument currentGameList, IEnumerable<string> inputGamesList, string targetLocation, string targetEmulator, bool removeFromSource = false)
         {
             var newGameList = new XDocument(new XElement("gameList"));
@@ -58,8 +56,40 @@ namespace Rbit.CommandLineTool.RomCommands.Support
 
             return newGameList.Elements("game").Any() ? newGameList : null;
         }
+        public List<string> LoadGameIds(string file)
+        {
+            _logger.Info($"Loading game id's from {file}, making unique list without duplicate id's.");
 
+            return File.ReadAllLines(file).Select(game => game.Split(',')[0]).Distinct().ToList();
+        }
+        public XDocument Clean(XDocument gameList, string romFolder)
+        {
+            _logger.Info($"Cleaning gamelist, got {gameList.Descendants("game").Count()} to verify.");
 
+            var newGameList = new XDocument(new XElement("gameList"));
+
+            foreach (var game in gameList.Descendants("game"))
+            {
+                if (game.Element("path") == null && game.Element("path").Value != string.Empty)
+                {
+                    _logger.Info($"{game.Element("name").Value} has no rom, removing it");
+                }
+                else
+                {
+                    if (File.Exists($"{romFolder}\\{this.GetRomName(game.Element("path").Value)}"))
+                    {
+                        _logger.Info($"Adding {game.Element("name").Value} with rom {this.GetRomName(game.Element("path").Value)}");
+                        newGameList.Root.Add(game);
+                    }
+                    else
+                    {
+                        _logger.Info($"Rom {this.GetRomName(game.Element("path").Value)} could not be found, removing {game.Element("name").Value}");
+                    }
+                }
+            }
+
+            return newGameList;
+        }
         private XElement MoveGame(string currentBaseDir, string currentEmulator, XElement gameXml, string targetLocation, string targetEmulator, bool move = false)
         {
             var image = GetValueSubString(gameXml.Element("image")?.Value, gameXml.Element("image").Value.LastIndexOf("/") + 1);
@@ -104,14 +134,6 @@ namespace Rbit.CommandLineTool.RomCommands.Support
 
             return gameXml;
         }
-
-        public List<string> LoadGameIds(string file)
-        {
-            _logger.Info($"Loading game id's from {file}, making unique list without duplicate id's.");
-
-            return File.ReadAllLines(file).Select(game => game.Split(',')[0]).Distinct().ToList();
-        }
-
         private static string GetValueSubString(string value, int index)
         {
             if (string.IsNullOrEmpty(value))
@@ -121,7 +143,6 @@ namespace Rbit.CommandLineTool.RomCommands.Support
 
             return value.Substring(index);
         }
-
         private void CopyFile(string source, string target, bool move = false)
         {
             if (move)
@@ -142,6 +163,10 @@ namespace Rbit.CommandLineTool.RomCommands.Support
 
             _logger.Info($"Copying: {new DirectoryInfo(source).FullName}, to: {new DirectoryInfo(target).FullName}");
             File.Copy(source, target, true);
+        }
+        private string GetRomName(string romPath)
+        {
+            return romPath.Substring(romPath.LastIndexOf('/') + 1);
         }
     }
 }
