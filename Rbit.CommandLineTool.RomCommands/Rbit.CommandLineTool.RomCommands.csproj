@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CleanGameListCommand.cs" />
+    <Compile Include="CleanImagesCommand.cs" />
     <Compile Include="ListByPublisherCommand.cs" />
     <Compile Include="MoveGamesCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

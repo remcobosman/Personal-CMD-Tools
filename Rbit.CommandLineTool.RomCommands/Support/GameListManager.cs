@@ -62,7 +62,7 @@ namespace Rbit.CommandLineTool.RomCommands.Support
 
             return File.ReadAllLines(file).Select(game => game.Split(',')[0]).Distinct().ToList();
         }
-        public XDocument Clean(XDocument gameList, string romFolder)
+        public XDocument CleanGameList(XDocument gameList, string romFolder)
         {
             _logger.Info($"Cleaning gamelist, got {gameList.Descendants("game").Count()} to verify.");
 
@@ -90,6 +90,37 @@ namespace Rbit.CommandLineTool.RomCommands.Support
 
             return newGameList;
         }
+        public List<string> CleanImages(XDocument gameList, string imagesFolder)
+        {
+            var images = Directory.GetFiles(imagesFolder);
+            _logger.Info($"Cleaning images, got {images.Length} image to verify");
+
+            var list = new List<string>();
+
+            foreach (var image in images)
+            {
+                _logger.Info($"Verifying {this.GetImageName(image)}");
+                if (!gameList.Descendants("game")
+                    .Any(x => x.Element("image")!=null 
+                    && x.Element("image").Value.EndsWith(this.GetImageName(image))))
+                {
+                    _logger.Info($"Deleting {this.GetImageName(image)}");
+                    File.Delete(image);
+                    list.Add(image);
+                }
+            }
+
+            _logger.Info($"Gamelist.xml contains {gameList.Descendants("game").Count()} games, image folder now has {images.Length - list.Count} images left.");
+
+            return list;
+            
+        }
+
+        private string GetImageName(string image)
+        {
+            return image.Substring(image.LastIndexOf('\\') + 1);
+        }
+
         private XElement MoveGame(string currentBaseDir, string currentEmulator, XElement gameXml, string targetLocation, string targetEmulator, bool move = false)
         {
             var image = GetValueSubString(gameXml.Element("image")?.Value, gameXml.Element("image").Value.LastIndexOf("/") + 1);

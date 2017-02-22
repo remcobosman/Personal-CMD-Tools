@@ -29,7 +29,7 @@ namespace Rbit.CommandLineTool.RomCommands
             var sourceGameList = XDocument.Load(Arguments["g"]);
             Logger.Info($"Loaded source gameslist from: {Arguments["g"]}");
 
-            var newGameList = manager.Clean(sourceGameList, Arguments["r"]);
+            var newGameList = manager.CleanGameList(sourceGameList, Arguments["r"]);
 
             newGameList.Save(Arguments["g"].Replace("gamelist.xml", "gamelist.clean.xml"));
 

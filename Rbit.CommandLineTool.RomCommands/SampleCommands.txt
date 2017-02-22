@@ -1,3 +1,4 @@
 ﻿ListByPublisher -g "C:\Temp\rom_scraping\gamelists\arcade\gamelist.xml" -p SNK -c name,publisher -o "C:\Temp\rom_scraping\gamelists\arcade\neogeo.list.csv"
 MoveGames -g "C:\Temp\rom_scraping\gamelists\arcade\gamelist.xml" -c "C:\Temp\rom_scraping\gamelists\arcade\neogeo.list.csv" -l "C:\Temp\rom_scraping\neogeo" -e "neogeo" -remove
 CleanGameList -g "C:\temp\retropie\gamelists\megadrive\gamelist.xml" -r "C:\temp\retropie\roms\megadrive\"
+CleanImages -g "C:\temp\retropie\gamelists\megadrive\gamelist.cleaned.xml" -i "C:\temp\retropie\downloaded_images\megadrive"
