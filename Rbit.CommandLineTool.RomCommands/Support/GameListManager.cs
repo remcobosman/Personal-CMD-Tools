@@ -115,12 +115,10 @@ namespace Rbit.CommandLineTool.RomCommands.Support
             return list;
             
         }
-
         private string GetImageName(string image)
         {
             return image.Substring(image.LastIndexOf('\\') + 1);
         }
-
         private XElement MoveGame(string currentBaseDir, string currentEmulator, XElement gameXml, string targetLocation, string targetEmulator, bool move = false)
         {
             var image = GetValueSubString(gameXml.Element("image")?.Value, gameXml.Element("image").Value.LastIndexOf("/") + 1);
